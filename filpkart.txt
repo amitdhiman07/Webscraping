@@ -1,0 +1,76 @@
+Web Scraping Flipkart Reviews Documentation
+Overview
+This project is designed to scrape product reviews from Flipkart using Python and popular libraries such as requests, BeautifulSoup, and pandas. The goal is to extract information such as the title, rating, and reviews of a specific product from multiple pages and store the data in a CSV file.
+
+Code Structure
+1. Importing Libraries
+python
+Copy code
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+This section imports the necessary libraries for making HTTP requests (requests), parsing HTML (BeautifulSoup), and handling data in a tabular format (pandas).
+
+2. Initializing Variables
+python
+Copy code
+data_list = []
+An empty list named data_list is initialized to store dictionaries containing information extracted from each review.
+
+3. Function Definition - get_page()
+python
+Copy code
+def get_page():
+    # ... (see below)
+This function is responsible for scraping reviews from multiple pages. It iterates through the specified number of pages, extracts relevant information from each review, and appends the data to data_list.
+
+4. Scraping Loop
+python
+Copy code
+for page in range(1, number_of_pages + 1):
+    # ... (see below)
+A loop iterates through each page, making an HTTP request to the Flipkart page, parsing the HTML content, and extracting review information.
+
+5. Review Extraction
+python
+Copy code
+title = element.find('p', {'class': '_2-N8zT'}).text.strip()
+rating_element = element.find('div', {'class': ''})
+rating = rating_element.text.strip() if rating_element else 'N/A'
+reviews_element = element.find('div', class_=lambda x: x and '_3LWZlK' in x and '_1BLPMq' in x)
+reviews = reviews_element.text.strip() if reviews_element else 'N/A'
+Review details such as title, rating, and reviews are extracted from each review container.
+
+6. Dictionary Creation
+python
+Copy code
+data = {
+    'Title': title,
+    'Rating': rating,
+    'Reviews': reviews
+}
+A dictionary (data) is created for each review, containing relevant information.
+
+7. Data List Update
+python
+Copy code
+data_list.append(data)
+The dictionary is appended to data_list.
+
+8. Calling the Function
+python
+Copy code
+get_page()
+The get_page() function is called to start the scraping process.
+
+9. DataFrame Creation
+python
+Copy code
+df = pd.DataFrame(data_list)
+The collected data is converted into a Pandas DataFrame for further analysis or export.
+
+10. Saving to CSV
+python
+Copy code
+df.to_csv(r"C:\Users\Amit\Desktop/Filpkart_reviews.csv" , index=False)
+The DataFrame is saved as a CSV file, and the file path can be adjusted based on the desired location.
